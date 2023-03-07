@@ -10,6 +10,8 @@ Next.js强大的功能： 我们建议是把数据请求都放到getInitialProps
 注：项目部署到服务器  使用SSH方式连接Github上传代码
 注：封装组件或传递组件要用大写字母开头，否则会被jsx认定为是原生HTML标签，引起不必要的错误
 注：Layoutjsx中cloneElement可复用组件的使用(父子组件传值)
+注：pages-test/b.js/ React Hooks组件的使用方式
+    import React, {  useState,  useReducer,  useContext,  useLayoutEffect,  useEffect,  useRef,  memo,  useMemo,  useCallback, } from 'react'
 总结： nextjs(同构框架) && OAuth(流程图)  &&  
 
 
