@@ -1,0 +1,47 @@
+{
+  "modules": {
+    "byIdentifier": {
+      "multi private-next-pages/_app.js": 0,
+      "multi private-next-pages/detail/index.js": 1,
+      "multi private-next-pages/detail/issues.js": 2,
+      "multi private-next-pages/index.js": 3,
+      "multi private-next-pages/search.js": 4,
+      "multi next/dist/pages/_error": 5,
+      "multi next/dist/pages/_document": 6
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6
+    }
+  },
+  "chunks": {
+    "byName": {
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\_app.js": 1,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\_document.js": 2,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\_error.js": 3,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\detail.js": 4,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\detail\\issues.js": 5,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\index.js": 6,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\search.js": 7
+    },
+    "bySource": {
+      "0 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/index.js ../../components/MarkdownRenderer": 0,
+      "0 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/issues.js ../../components/MarkdownRenderer": 0
+    },
+    "usedIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  }
+}

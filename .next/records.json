@@ -1,0 +1,81 @@
+{
+  "mini-css-extract-plugin node_modules/css-loader/index.js??ref--5-1!node_modules/antd/dist/antd.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin node_modules/css-loader/index.js??ref--5-1!node_modules/github-markdown-css/github-markdown.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "modules": {
+    "byIdentifier": {
+      "multi node_modules/next/dist/client/next": 0,
+      "css node_modules/css-loader/index.js??ref--5-1!node_modules/antd/dist/antd.css 0": 1,
+      "css node_modules/css-loader/index.js??ref--5-1!node_modules/github-markdown-css/github-markdown.css 0": 2
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    }
+  },
+  "chunks": {
+    "byName": {
+      "commons": 0,
+      "static/runtime/webpack.js": 1,
+      "styles": 2,
+      "static/runtime/main.js": 4,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\_app.js": 5,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\_error.js": 6,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\detail.js": 7,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\detail\\issues.js": 8,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\index.js": 9,
+      "static\\UXutX1MNJ9unUTd8rxdp0\\pages\\search.js": 10
+    },
+    "bySource": {
+      "0 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/index.js ../../components/MarkdownRenderer": 2,
+      "0 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/issues.js ../../components/MarkdownRenderer": 2,
+      "1 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/index.js ../../components/MarkdownRenderer": 3,
+      "1 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/detail/issues.js ../../components/MarkdownRenderer": 3
+    },
+    "usedIds": [
+      0,
+      1,
+      10,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+}

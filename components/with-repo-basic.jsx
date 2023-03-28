@@ -14,7 +14,6 @@ function makeQuery(queryObject) {
       result.push(entry.join('='))
       return result
     }, []).join('&')
-
   return `?${query}`
 }
 

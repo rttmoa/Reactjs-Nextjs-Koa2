@@ -1,8 +1,8 @@
 const axios = require('axios')
-
 const config = require('../config')
-
 const { client_id, client_secret, request_token_url } = config.github
+
+
 
 module.exports = server => {  // 接收 server
 
