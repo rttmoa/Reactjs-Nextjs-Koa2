@@ -19,24 +19,24 @@ const api = require('../lib/api')
 const { publicRuntimeConfig, serverRuntimeConfig } = getCofnig()
 
 // 使用缓存数据
-let cachedUserRepos, cachedUserStaredRepos
+let cachedUserRepos, cachedUserStaredRepos;
 
-const isServer = typeof window === 'undefined'
+const isServer = typeof window === 'undefined';
 
-/* withRouter包裹Index组件，可以获取router */  
 function Index({ userRepos, userStaredRepos, user, router }) {  
   // console.log(userRepos, userStaredRepos)
+  // console.log("router", router)
 
+  
   const tabKey = router.query.key || '1'; // 要显示 你的仓库 | 你关注的仓库
 
-  const handleTabChange = activeKey => {
-    Router.push(`/?key=${activeKey}`); // 动态切换Tabs
-  }
+  const handleTabChange = activeKey => { Router.push(`/?key=${activeKey}`); } // 动态切换Tabs, 查看地址栏即可
 
   useEffect(() => {
-    // 缓存到页面中
+    // 缓存到页面中 
+    // FIXME: 
     if (!isServer) {
-
+      // console.log(123)
       cachedUserRepos = userRepos;
       cachedUserStaredRepos = userStaredRepos;
 
@@ -54,6 +54,7 @@ function Index({ userRepos, userStaredRepos, user, router }) {
   useEffect(() => {
     // cache缓存页面数据 && 对于cacheArray，服务端是没有必要去执行的 && 这个是用户去搜索有关的
     if (!isServer) {
+      // console.log(123123)
       cacheArray(userRepos)
       cacheArray(userStaredRepos)
     }
@@ -79,8 +80,14 @@ function Index({ userRepos, userStaredRepos, user, router }) {
     )
   }
 
+
+
+  /**
+   * TODO: 用户登陆后显示 用户的登陆信息   左侧用户信息  右侧你的仓库 你关注的仓库
+   */ 
   return (
     <div className="root">
+
       {/* 用户信息 */}
       <div className="user-info">
         <img src={user.avatar_url} alt="user avatar" className="avatar" />
@@ -89,13 +96,12 @@ function Index({ userRepos, userStaredRepos, user, router }) {
         <span className="bio">{user.bio}</span>
         <p className="email">
           <Icon type="mail" style={{ marginRight: 10 }} />
-          <a href={`mailto:${user.email}`}>{user.email}</a>
+          <a href={`mailto:${user.email}`}>{user && user.email || "无"}</a>
         </p>
       </div>
+
       {/* 用户仓库列表 */}
       <div className="user-repos">
-        {/* {userRepos.map(repo => ( <Repo repo={repo} /> ))} */}
-        {/* 切换Tab：你的仓库 | 你关注的仓库 */}
         <Tabs activeKey={tabKey} onChange={handleTabChange} animated={false}>
           <Tabs.TabPane tab="你的仓库" key="1">
             {userRepos.map(repo => (
@@ -109,6 +115,7 @@ function Index({ userRepos, userStaredRepos, user, router }) {
           </Tabs.TabPane>
         </Tabs>
       </div>
+
       <style jsx>{`
         .root {
           display: flex;
@@ -153,7 +160,7 @@ function Index({ userRepos, userStaredRepos, user, router }) {
 
 // 在服务端渲染的时候就可以拿到，函数体中的数据 | 而不需要客户端加载完js文件再渲染
 Index.getInitialProps = async ({ ctx, reduxStore }) => {
-  console.log('-----------是否在控制台中打印，还是在浏览器中打印-----------------')
+  console.log('-----------Indexjs 是否在控制台中打印，还是在浏览器中打印-----------------')
   // const promise = new Promise(resolve => {setTimeout(() => resolve({name: 'jokcy'}, 1000))})
   // return await promise
 
@@ -213,12 +220,9 @@ Index.getInitialProps = async ({ ctx, reduxStore }) => {
     userStaredRepos: userStaredRepos.data,
   }
 }
-
-
-
 function mapState(state) {
   return {
     user: state.user,
   }
 }
-export default withRouter(  connect(mapState)(Index) )
+export default withRouter(connect(mapState, null)(Index))

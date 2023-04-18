@@ -5,10 +5,14 @@ import Link from 'next/link'
 // import Router from 'next/router'
 import Repo from '../components/Repo'
 import { cacheArray } from '../lib/repo-basic-cache'
+
 const api = require('../lib/api')
+/***--- 语言类型 ---**/
 const LANGUAGES = ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Java', 'Rust']
-const SORT_TYPES = [
-  {name: 'Best Match'},
+/***--- 排序类型 ---**/
+const SORT_TYPES = [{
+    name: 'Best Match'
+  },
   {
     name: 'Most Stars',
     value: 'stars',
@@ -68,7 +72,7 @@ const FilterLink = memo(({ name, query, lang, sort, order, page }) => { // 不�
  */
 function Search({ router, repos }) {/**--- withRouter包裹组件 ---**/
   const { ...querys } = router.query;
-  const { lang, sort, order, page } = router.query
+  const { lang, sort, order, page } = router.query;
   // console.log("querts", querys) // {query: 'react', lang: 'JavaScript', sort: 'forks', order: 'desc', page: '1', per_page: "20"}
   // console.log("搜索 仓库 repos", repos)
 
@@ -172,14 +176,12 @@ function Search({ router, repos }) {/**--- withRouter包裹组件 ---**/
 
 
 Search.getInitialProps = async ({ ctx }) => {
-  // console.log(ctx)
+  // console.log("Search.getInitialProps", ctx)
   const { query, sort, lang, order, page } = ctx.query;
 
   if (!query) {
     return {
-      repos: {
-        total_count: 0,
-      },
+      repos: {total_count: 0}
     }
   }
 
@@ -191,8 +193,8 @@ Search.getInitialProps = async ({ ctx }) => {
   if (page) queryString += `&page=${page}`
   queryString += `&per_page=${per_page}`
 
-  // 传入 req，res 这是API约定
-  const result = await api.request( { url: `/search/repositories${queryString}` }, ctx.req, ctx.res )
+  // 传入 req, res 这是API约定
+  const result = await api.request( { url: `/search/repositories${queryString}` }, ctx.req, ctx.res)
 
   // 返回的参数在 Search页面中可以拿到
   return {

@@ -2,12 +2,14 @@ import Link from 'next/link'
 import { Icon } from 'antd'
 import { getLastUpdated } from '../lib/utils'
 
+
 function getLicense(license) {
-  return license ? `${license.spdx_id} license` : ''
+  return license ? `${license.spdx_id} license` : ""
 }
 
-
 export default ({ repo }) => {
+  // console.log("repo.updated_at", repo.updated_at) // 2023-03-19T08:00:22Z   处理为   2 minutes age
+
   return (
     // .rootdiv
     // p.other-info
@@ -20,15 +22,11 @@ export default ({ repo }) => {
         </h3>
         <p className="repo-desc">{repo.description}</p>
         <p className="other-info">
-          {repo.license ? (
-            <span className="license">{getLicense(repo.license)}</span>
-          ) : null}
+          {repo.license ? (<span className="license">{getLicense(repo.license)}</span>) : null}
           <span className="last-updated">
             {getLastUpdated(repo.updated_at)}
           </span>
-          <span className="open-issues">
-            {repo.open_issues_count} open issues
-          </span>
+          <span className="open-issues" style={{color: "red"}}>{repo.open_issues_count} open issues</span>
         </p>
       </div>
       <div className="lang-star">
