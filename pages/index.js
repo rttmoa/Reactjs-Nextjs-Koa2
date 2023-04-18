@@ -4,10 +4,8 @@ import getCofnig from 'next/config'  /* 获取 next.config.js 文件中 configs�
 import { connect } from 'react-redux'
 import Router, { withRouter } from 'next/router'
 import LRU from 'lru-cache'
-
 import Repo from '../components/Repo'
 import { cacheArray } from '../lib/repo-basic-cache'
-
 const api = require('../lib/api')
 
 // 缓存更新策略：
@@ -16,12 +14,11 @@ const api = require('../lib/api')
 // })
 
 
-const { publicRuntimeConfig, serverRuntimeConfig } = getCofnig()
-
-// 使用缓存数据
-let cachedUserRepos, cachedUserStaredRepos;
-
+const { publicRuntimeConfig, serverRuntimeConfig } = getCofnig();
+let cachedUserRepos, cachedUserStaredRepos; // 使用缓存数据
 const isServer = typeof window === 'undefined';
+
+
 
 function Index({ userRepos, userStaredRepos, user, router }) {  
   // console.log(userRepos, userStaredRepos)
