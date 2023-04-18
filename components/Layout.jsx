@@ -8,7 +8,7 @@ import {  Button,  Layout,  Icon,  Input,  Avatar,  Tooltip,  Dropdown,  Menu } 
 import Container from './Container'
 import { logout } from '../store/store'
 
-const { Header, Content, Footer } = Layout
+const { Header, Content, Footer } = Layout;
 const { publicRuntimeConfig } = getCofnig()
 
 
@@ -37,22 +37,17 @@ const footerStyle = {
 // 页面间传递数据方式
 // children： _app.js中相同部分的结构通过 children
 function MyLayout({ children, user, logout, router }) { // 使用Redux获取user用户信息
+  // console.log("user", user)
+  // console.log("router", router)
   const urlQuery = router.query && router.query.query
-
+  /***--- 输入框事件监听 ---**/
   const [search, setSearch] = useState(urlQuery || '')
-
-  const handleSearchChange = useCallback(event => {
-      setSearch(event.target.value)
-    }, [setSearch],
-  )
-
-  const handleOnSearch = useCallback(() => {
-    router.push(`/search?query=${search}`)
-  }, [search])
-
-  const handleLogout = useCallback(() => {
-    logout()
-  }, [logout])
+  /***--- 输入关键词 ---**/
+  const handleSearchChange = useCallback(event => { setSearch(event.target.value) }, [setSearch])
+  /***--- 搜索关键词 ---**/
+  const handleOnSearch = useCallback(() => {router.push(`/search?query=${search}`)}, [search])
+  /***--- 退出登陆 ---**/
+  const handleLogout = useCallback(() => {logout()}, [logout])
 
   const handleGotoOAuth = useCallback(e => {
     e.preventDefault();
@@ -69,7 +64,10 @@ function MyLayout({ children, user, logout, router }) { // 使用Redux获取user
 
   const userDropDown = (
     <Menu>
-      <Menu.Item>
+      <Menu.Item> 
+        <a href="javascript:void(0)">占 位</a>
+      </Menu.Item>
+      <Menu.Item> 
         <a href="javascript:void(0)" onClick={handleLogout}>登 出</a>
       </Menu.Item>
     </Menu>
@@ -77,8 +75,9 @@ function MyLayout({ children, user, logout, router }) { // 使用Redux获取user
 
   return (
     <Layout>
+
       <Header>
-        {/* cloneElement扩展组件可复用性的高级技巧 */}
+        {/* cloneElement扩展组件可复用性的高级技巧 - Container */}
         <Container renderer={<div className="header-inner" />}>
           <div className="header-left">
             <div className="logo">
@@ -87,33 +86,26 @@ function MyLayout({ children, user, logout, router }) { // 使用Redux获取user
               </Link>
             </div>
             <div>
-              <Input.Search
-                placeholder="搜索仓库"
-                value={search}
-                onChange={handleSearchChange}
-                onSearch={handleOnSearch}
-              />
+              <Input.Search placeholder="搜索仓库" value={search} onChange={handleSearchChange} onSearch={handleOnSearch} />
             </div>
           </div>
           <div className="header-right">
             <div className="user">
               {user && user.id ? (
                 <Dropdown overlay={userDropDown}>
-                  <a href="/">
-                    <Avatar size={40} src={user.avatar_url} />
-                  </a>
+                  <a href="/"><Avatar size={40} src={user.avatar_url} /></a>
                 </Dropdown>
               ) : (
                 <Tooltip title="点击进行登录">
-                  <a href={`/prepare-auth?url=${router.asPath}`}>
-                    <Avatar size={40} icon="user" />
-                  </a>
-                </Tooltip>
+                  <a href={`/prepare-auth?url=${router.asPath}`}><Avatar size={40} icon="user" /></a>
+                </Tooltip>  
               )}
             </div>
           </div>
         </Container>
       </Header>
+
+
       <Content>
         {/* _app.js中传递过来的 children */}
         {/* cloneElement扩展组件可复用性的高级技巧 */}
@@ -123,11 +115,10 @@ function MyLayout({ children, user, logout, router }) { // 使用Redux获取user
         {/* <Container renderer={<Comp color="red" />}>{children}</Container> */}
         {/* <Container><Comp color="red">{children}</Comp></Container> */}
         {/* <Container comp="p"><div className='content'>{children}</div></Container>  */}
-        {/* <Container  comp={Comp}>{children}</Container> */}
+        {/* <Container comp={Comp}>{children}</Container> */}
       </Content>
       <Footer style={footerStyle}>
-        Develop by Jokcy @
-        <a href="mailto:jokcy@hotmail.com">jokcy@hotmail.com</a>
+        Develop by Jokcy @<a href="mailto:jokcy@hotmail.com">jokcy@hotmail.com</a>
       </Footer>
       <style jsx>{`
         .content {
@@ -161,9 +152,6 @@ function MyLayout({ children, user, logout, router }) { // 使用Redux获取user
     </Layout>
   )
 }
-
-
-
 function mapState(state) {
   return {
     user: state.user,
@@ -174,4 +162,4 @@ function mapReducer(dispatch) {
     logout: () => dispatch(logout()),
   }
 }
-export default connect( mapState, mapReducer )(withRouter(MyLayout))  /* redux和router */
+export default connect(state => {return {user: state.user}}, mapReducer )(withRouter(MyLayout))  

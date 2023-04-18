@@ -5,9 +5,10 @@ const SCOPE = 'user'
 // 可能需要将此文件名改成  config.sample.js -> config.js
 
 
+
+// 需要在github中配置 Authorization callback URL
 // https://github.com/settings/developers   注册名字，开发URL，授权后跳转的生产URL
 const client_id = "b545a2ba1f9f58b9815e"
-
 module.exports = {
   github: {
     request_token_url: 'https://github.com/login/oauth/access_token',

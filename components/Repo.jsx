@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Icon } from 'antd'
-
 import { getLastUpdated } from '../lib/utils'
 
 function getLicense(license) {
@@ -39,8 +38,7 @@ export default ({ repo }) => {
         </span>
       </div>
 
-      <style jsx>
-      {`
+      <style jsx>{`
         .root {
           display: flex;
           justify-content: space-between;
@@ -67,8 +65,7 @@ export default ({ repo }) => {
         .repo-desc {
           width: 400px;
         }
-      `}
-      </style>
+      `}</style>
     </div>
   )
 }

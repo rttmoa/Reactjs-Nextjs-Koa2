@@ -9,18 +9,16 @@ const atob = require('atob')
 const auth = require('./server/auth')
 const api = require('./server/api')
 
-const RedisSessionStore = require('./server/session-store')
+const RedisSessionStore = require('./server/session-store')   // Redis 操作 session
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })  /* 是否处于开发状态 */
 const handle = app.getRequestHandler() /* 处理Http请求的响应 */
 
-
-// 创建redis client
+ 
 const redis = new Redis({ port: 6379, db:3 }) 
 
-// 设置nodejs全局增加一个atob方法
-global.atob = atob
+global.atob = atob; // 它将 base64 编码的 ascii 数据转换回二进制
 
 
 
@@ -35,7 +33,7 @@ app.prepare().then(() => {
   // Koa的session对象 
   const SESSION_CONFIG = {
     key: 'jid',
-    maxAge: 10 * 1000, // 10秒种
+    maxAge: 10 * 1000,  
     store: new RedisSessionStore(redis), // 连接数据库存储的功能
   }
 
@@ -118,5 +116,4 @@ app.prepare().then(() => {
     console.log('koa server listening on 3000')
   })
 
-  // ctx.body
 })

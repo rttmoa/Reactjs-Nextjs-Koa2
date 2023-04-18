@@ -1,16 +1,12 @@
 import App, { Container } from 'next/app'
 import { Provider } from 'react-redux'
 import Router from 'next/router'
-import Link from 'next/link'
-
+// import Link from 'next/link'
 import axios from 'axios'
-
-import 'antd/dist/antd.css'
-
 import Layout from '../components/Layout'
 import PageLoading from '../components/PageLoading'
-
 import testHoc from '../lib/with-redux';  // 可以将 export default Comp => {} 函数中传递到 此组件中this.props使用
+import 'antd/dist/antd.css'
 
 
 
@@ -22,20 +18,17 @@ class MyApp extends App {
     loading: false,
   }
 
-  startLoading = () => {
-    this.setState({ loading: true })
-  }
-
-  stopLoading = () => {
-    this.setState({ loading: false })
-  }
+  startLoading = () => {this.setState({ loading: true })}
+    
+  stopLoading = () => {this.setState({ loading: false })}
 
   componentDidMount() {
     Router.events.on('routeChangeStart', this.startLoading) // 切换：路由开始的时候 Loading：true
     Router.events.on('routeChangeComplete', this.stopLoading)
     Router.events.on('routeChangeError', this.stopLoading)
 
-    // axios.get("https://api.github.com/search/repositories?q=react").then(resp => console.log(resp))
+    // 获取 github 中 react的数据
+    // axios.get("https://api.github.com/search/repositories?q=react").then(resp => console.log("react data", resp))
     // axios.get("github/search/repositories?q=react").then(resp => console.log(resp))
   }
 
@@ -47,8 +40,9 @@ class MyApp extends App {
 
   static async getInitialProps(ctx) { /* 使用 static获取 全局数据 */
     const { Component } = ctx;
-    console.log('app init')
-    let pageProps = {}
+    // console.log("getInitialProps ctx", ctx)
+    // console.log('getInitialProps app init')
+    let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
@@ -60,7 +54,7 @@ class MyApp extends App {
   // 重写render方法
   render() {
     // reduxStore是with-redux中传递过来的 
-    const { Component, pageProps, reduxStore } = this.props
+    const { Component, pageProps, reduxStore } = this.props;
 
     return (
       <Container>
