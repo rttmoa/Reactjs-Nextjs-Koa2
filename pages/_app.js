@@ -5,13 +5,12 @@ import Router from 'next/router'
 import axios from 'axios'
 import Layout from '../components/Layout'
 import PageLoading from '../components/PageLoading'
-import testHoc from '../lib/with-redux';  // 可以将 export default Comp => {} 函数中传递到 此组件中this.props使用
+import testHoc from '../lib/with-redux';   /* TODO: 可以将 export default Comp => {} 函数中传递到 此组件中this.props使用 */
 import 'antd/dist/antd.css'
 
 
 
-// 覆盖_app.js文件
-class MyApp extends App {
+class MyApp extends App { // 覆盖_app.js文件
   // state可以通过 this.props.pageProps属性传递到每个页面中
   state = {
     context: 'value',
@@ -23,7 +22,7 @@ class MyApp extends App {
   stopLoading = () => {this.setState({ loading: false })}
 
   componentDidMount() {
-    Router.events.on('routeChangeStart', this.startLoading) // 切换：路由开始的时候 Loading：true
+    Router.events.on('routeChangeStart', this.startLoading)     // 切换：路由开始的时候 Loading：true
     Router.events.on('routeChangeComplete', this.stopLoading)
     Router.events.on('routeChangeError', this.stopLoading)
 
@@ -38,22 +37,26 @@ class MyApp extends App {
     Router.events.off('routeChangeError', this.stopLoading)
   }
 
-  static async getInitialProps(ctx) { /* 使用 static获取 全局数据 */
+  /* TODO: 使用static获取全局数据  &&  打印是在 服务端打印CMD */
+  static async getInitialProps(ctx) {
     const { Component } = ctx;
     // console.log("getInitialProps ctx", ctx)
-    // console.log('getInitialProps app init')
+    // console.error('getInitialProps app init')
     let pageProps = {};
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx);
     }
     return {
-      pageProps,
+      pageProps
     }
   }
 
-  // 重写render方法
+
+
+
+
   render() {
-    // reduxStore是with-redux中传递过来的 
+    // reduxStore是with-redux中传递过来的
     const { Component, pageProps, reduxStore } = this.props;
 
     return (
@@ -69,5 +72,5 @@ class MyApp extends App {
     )
   }
 }
-
+/** TODO: 使用 testHoc 组件包裹 MyApp 组件   */
 export default testHoc(MyApp)

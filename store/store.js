@@ -1,7 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-
 import axios from 'axios'
 
 
@@ -70,6 +69,5 @@ export default function initializeStore(state) {
     Object.assign({},{user: userInitialState},state),
     composeWithDevTools(applyMiddleware(ReduxThunk)),
   )
-
   return store
 }

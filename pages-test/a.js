@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import styled from 'styled-components'
-// import moment from 'moment'
+import moment from 'moment'
 
 const Comp = dynamic(import('../components/comp'))
 
@@ -42,7 +42,7 @@ const A = ({ router, name, time }) => {
 }
 
 A.getInitialProps = async ctx => {
-  const moment = await import('moment')
+  const moment = await import('moment') // 异步加载
 
   const promise = new Promise(resolve => {
     setTimeout(() => {

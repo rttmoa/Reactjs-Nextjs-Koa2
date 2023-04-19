@@ -11,8 +11,8 @@ const api = require('./server/api')
 
 const RedisSessionStore = require('./server/session-store')   // Redis 操作 session
 
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })  /* 是否处于开发状态 */
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });    /* 是否处于开发状态 */
 const handle = app.getRequestHandler() /* 处理Http请求的响应 */
 
  
@@ -33,7 +33,7 @@ app.prepare().then(() => {
   // Koa的session对象 
   const SESSION_CONFIG = {
     key: 'jid',
-    maxAge: 10 * 1000,  
+    // maxAge: 10 * 1000,  //FIXME: 注释掉时间后，刷新页面session不会丢失
     store: new RedisSessionStore(redis), // 连接数据库存储的功能
   }
 
@@ -57,7 +57,7 @@ app.prepare().then(() => {
 
   // /a/?.js文件
   router.get('/a/:id', async ctx => {
-    const id = ctx.params.id
+    const id = ctx.params.id;
     await handle(ctx.req, ctx.res, {
       pathname: '/a',
       query: { id },
@@ -91,7 +91,7 @@ app.prepare().then(() => {
     } else {
       ctx.body = user
       ctx.set('Content-Type', 'application/json')  /* 返回的数据是json格式的 */
-    } 
+    }
   })
 
   server.use(router.routes())

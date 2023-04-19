@@ -1,19 +1,25 @@
 import Link from 'next/link'
 import { Icon } from 'antd'
-import { getLastUpdated } from '../lib/utils'
-
-
+import { getLastUpdated } from '../lib/utils';
 function getLicense(license) {
-  return license ? `${license.spdx_id} license` : ""
+  return license ? `${license.spdx_id} license` : "";
 }
+
+
+
 
 export default ({ repo }) => {
   // console.log("repo.updated_at", repo.updated_at) // 2023-03-19T08:00:22Z   处理为   2 minutes age
+  // 详情页
+  // console.log("url: ", `/detail?owner=${repo.owner.login}&name=${repo.name}`) // 例1：/detail?owner=rttmoa&name=JueJuePocketBook
+
 
   return (
     // .rootdiv
     // p.other-info
     <div className="root">
+
+      {/* 名称 描述 时间 issues */}
       <div className="basic-info">
         <h3 className="repo-title">
           <Link href={`/detail?owner=${repo.owner.login}&name=${repo.name}`}>
@@ -29,10 +35,12 @@ export default ({ repo }) => {
           <span className="open-issues" style={{color: "red"}}>{repo.open_issues_count} open issues</span>
         </p>
       </div>
+
+      {/* 语言 Star数 */}
       <div className="lang-star">
         <span className="lang">{repo.language}</span>
         <span className="stars">
-          {repo.stargazers_count} <Icon type="star" theme="filled" />
+          {repo.stargazers_count}<Icon type="star" theme="filled" />
         </span>
       </div>
 

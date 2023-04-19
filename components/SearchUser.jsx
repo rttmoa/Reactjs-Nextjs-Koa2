@@ -1,18 +1,19 @@
 import { useState, useCallback, useRef } from 'react'
 import { Select, Spin } from 'antd'
 import debounce from 'lodash/debounce'
-
-import api from '../lib/api'
-
-const Option = Select.Option
+import api from '../lib/api';
+const Option = Select.Option;
 
 
 
+/***--- deboune ---**/
 function SearchUser({ onChange, value }) {
+  // console.log("SearchUser")
   // { current: 0 }
   const lastFetchIdRef = useRef(0) // 使用Ref逃脱闭包陷阱
   const [fetching, setFetching] = useState(false)
   const [options, setOptions] = useState([])
+
 
   // useCallback方法中没有任何依赖，fetching和options是永远不会变的，所以不用加依赖项
   const fetchUser = useCallback(
@@ -27,7 +28,7 @@ function SearchUser({ onChange, value }) {
 
       // 在浏览器环境中，不会用到req，res
       api.request({url: `/search/users?q=${value}`}).then(resp => {
-          console.log('user:', resp)
+          console.log('创建者数据:', resp)
           if (fetchId !== lastFetchIdRef.current) {
             return
           }
@@ -38,8 +39,7 @@ function SearchUser({ onChange, value }) {
           setFetching(false)
           setOptions(data)
         })
-    }, 500),
-  [],)
+    }, 500), [])
 
   const handleChange = value => {
     setOptions([])
@@ -47,11 +47,13 @@ function SearchUser({ onChange, value }) {
     onChange(value)
   }
 
+
+
   return (
     <Select
       style={{ width: 200 }}
       showSearch={true}
-      notFoundContent={fetching ? <Spin size="small" /> : <span>nothing</span>}
+      notFoundContent={fetching ? <Spin size="small" /> : <span>请输入人名搜索名字</span>}
       filterOption={false}
       placeholder="创建者"
       value={value}
@@ -68,4 +70,4 @@ function SearchUser({ onChange, value }) {
   )
 }
 
-export default SearchUser
+export default SearchUser;

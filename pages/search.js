@@ -5,10 +5,11 @@ import Link from 'next/link'
 // import Router from 'next/router'
 import Repo from '../components/Repo'
 import { cacheArray } from '../lib/repo-basic-cache'
-
 const api = require('../lib/api')
+
+
 /***--- 语言类型 ---**/
-const LANGUAGES = ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Java', 'Rust']
+const LANGUAGES = ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Java', 'Rust'];
 /***--- 排序类型 ---**/
 const SORT_TYPES = [{
     name: 'Best Match'
@@ -33,12 +34,12 @@ const SORT_TYPES = [{
     value: 'forks',
     order: 'asc',
   },
-]
+];
 
 const selectedItemStyle = {
   borderLeft: '2px solid #e36209',
   fontWeight: 100,
-}
+};
 
 function noop() {}
 
@@ -194,9 +195,12 @@ Search.getInitialProps = async ({ ctx }) => {
   queryString += `&per_page=${per_page}`
 
   // 传入 req, res 这是API约定
-  const result = await api.request( { url: `/search/repositories${queryString}` }, ctx.req, ctx.res)
+  const result = await api.request({ url: `/search/repositories${queryString}`}, ctx.req, ctx.res)
+  // console.log("result", result.data.total_count, result.data.incomplete_results) // result 3897706 true
 
-  // 返回的参数在 Search页面中可以拿到
+  /**
+   * TODO: 返回的参数在 Search页面中可以拿到
+   */ 
   return {
     repos: result.data,
   }

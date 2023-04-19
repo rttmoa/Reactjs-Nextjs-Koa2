@@ -159,7 +159,7 @@ function mapState(state) {
 }
 function mapReducer(dispatch) {
   return {
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   }
 }
 export default connect(state => {return {user: state.user}}, mapReducer )(withRouter(MyLayout))  

@@ -4,30 +4,29 @@ import getCofnig from 'next/config'  /* 获取 next.config.js 文件中 configs�
 import { connect } from 'react-redux'
 import Router, { withRouter } from 'next/router'
 import LRU from 'lru-cache'
+import axios from 'axios'
 import Repo from '../components/Repo'
 import { cacheArray } from '../lib/repo-basic-cache'
 const api = require('../lib/api')
 
 // 缓存更新策略：
-// const cache = new LRU({
-//   maxAge: 1000 * 10,
-// })
+// const cache = new LRU({  maxAge: 1000 * 10 })
 
 
-const { publicRuntimeConfig, serverRuntimeConfig } = getCofnig();
+const { publicRuntimeConfig, serverRuntimeConfig } = getCofnig()
 let cachedUserRepos, cachedUserStaredRepos; // 使用缓存数据
 const isServer = typeof window === 'undefined';
 
 
 
-function Index({ userRepos, userStaredRepos, user, router }) {  
+function Index({ userRepos, userStaredRepos, user, router }) { // 浏览器端
   // console.log(userRepos, userStaredRepos)
   // console.log("router", router)
 
   
   const tabKey = router.query.key || '1'; // 要显示 你的仓库 | 你关注的仓库
 
-  const handleTabChange = activeKey => { Router.push(`/?key=${activeKey}`); } // 动态切换Tabs, 查看地址栏即可
+  const handleTabChange = activeKey => {Router.push(`/?key=${activeKey}`)}  // 动态切换Tabs, 查看地址栏即可
 
   useEffect(() => {
     // 缓存到页面中 
@@ -42,9 +41,9 @@ function Index({ userRepos, userStaredRepos, user, router }) {
 
       // 每隔十秒，将缓存清空，重新请求数据
       const timeout = setTimeout(() => {
-        cachedUserRepos = null
-        cachedUserStaredRepos = null
-      }, 1000 * 60 * 10)
+        cachedUserRepos = null;
+        cachedUserStaredRepos = null;
+      }, 1000 * 60 * 10);
     }
   }, [userRepos, userStaredRepos])
 
@@ -147,38 +146,44 @@ function Index({ userRepos, userStaredRepos, user, router }) {
           flex-grow: 1;
         }
       `}</style>
+
     </div>
   )
 }
 // Github接口代理完善：
   // 1、getInitialProps：是在客户端页面跳转的时候会调用，同时在服务端渲染的时候访问Index页面也会调用getInitialProps
   // 2、在服务端渲染的时候处于Nodejs环境，会访问80端口的 axios.get('http://localhost/github/search/repositories?q=react').then(resp => console.log(resp)) 
-  // 3、同构概念：客户端和服务端同时渲染 /lib/api.js 
+  // 3、同构概念：客户端和服务端同时渲染 /lib/api.js
+
 
 // 在服务端渲染的时候就可以拿到，函数体中的数据 | 而不需要客户端加载完js文件再渲染
-Index.getInitialProps = async ({ ctx, reduxStore }) => {
-  console.log('-----------Indexjs 是否在控制台中打印，还是在浏览器中打印-----------------')
+Index.getInitialProps = async ({ ctx, reduxStore }) => { // 服务端
+  console.log('-----------Indexjs 是否在控制台中打印，还是在浏览器中打印-----------------');
   // const promise = new Promise(resolve => {setTimeout(() => resolve({name: 'jokcy'}, 1000))})
-  // return await promise
+  // return await promise;
+  // console.log(promise);
 
   // const moment = await import("moment") // 异步加载
-
+  // console.log("moment", moment)
   // const result = await axios.get('/github/search/repositories?q=react').then(resp => console.log(resp)) 
 
 
   // 在Nodejs环境拿不到浏览器对象
-  // 但是在with-reduxjs中  ctx.reduxStore = reduxStore;  // 给Nodejs环境绑定reduxStore
+  // 但是在with-reduxjs中:  ctx.reduxStore = reduxStore;  // 给Nodejs环境绑定reduxStore
   // 可以拿到reduxStore对象
-  const user = reduxStore.getState().user; 
-  // console.log(reduxStore)
+  // console.log(reduxStore) // FIXME: {dispatch, subscribe, getState, replaceReducer, [Symbol(observable)]} 
+
+  const user = reduxStore.getState().user;
+  // console.log("reduxStore user", user) // redux 中的用户信息
   if (!user || !user.id) {
     return {
-      isLogin: false,
+      isLogin: false
     }
-  } 
+  }
 
   // 当不是服务端时，
   if (!isServer) {
+    // console.log("是否进入 !isServer 中")
     // if (cache.get('userRepos') && cache.get('userStaredRepos')) {
     //   return {
     //     userRepos: cache.get('userRepos'),
@@ -189,28 +194,18 @@ Index.getInitialProps = async ({ ctx, reduxStore }) => {
     if (cachedUserRepos && cachedUserStaredRepos) {
       return {
         userRepos: cachedUserRepos,
-        userStaredRepos: cachedUserStaredRepos,
+        userStaredRepos: cachedUserStaredRepos
       }
     }
   }
-  // const userRepos = await api.request({ url: '/search/repositories?q=react'}, ctx.req, ctx.res)
-  const userRepos = await api.request(
-    {
-      url: '/user/repos',
-    },
-    ctx.req,
-    ctx.res,
-  )
 
-  const userStaredRepos = await api.request(
-    {
-      url: '/user/starred',
-    },
-    ctx.req,
-    ctx.res,
-  )
+  const userRe = await api.request({ url: '/search/repositories?q=react'}, ctx.req, ctx.res)
+  // console.log(userRe.data) // 可以拿到数据的
 
-  // 返回的数据 都给到Index页面： function Index({ userRepos, userStaredRepos, user, router }) {}
+  const userRepos = await api.request({url: '/user/repos'}, ctx.req, ctx.res)
+  const userStaredRepos = await api.request({url: '/user/starred'}, ctx.req, ctx.res)
+
+  // 返回的数据 都给到Indexjs页面： function Index({ userRepos, userStaredRepos, user, router }) {}
   return {
     isLogin: true,
     userRepos: userRepos.data,
