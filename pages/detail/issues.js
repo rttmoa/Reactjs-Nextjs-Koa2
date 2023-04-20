@@ -100,7 +100,7 @@ function IssueItem({ issue }) {
 }
 /***--- 处理搜索框内 搜索内容的 url ---**/
 function makeQuery(creator, state, labels) {
-  let creatorStr = creator ? `creator=${creator}` : ''
+  let creatorStr = creator ? `creator=${creator}` : "";
   let stateStr = state ? `state=${state}` : ''
   let labelStr = ''
   if (labels && labels.length > 0) {
@@ -165,7 +165,7 @@ function Issues({ initialIssues, labels, owner, name }) {    // 在服务端渲�
     }
   }, [owner, name, labels]);
 
-  const handleCreatorChange = useCallback(value => {setCreator(value)}, [])
+  const handleCreatorChange = useCallback(value => {setCreator(value)}, []);  // SearchUser 组件回调 搜索创建者内容
 
   const handleStateChange = useCallback(value => {setState(value)}, []);
 
@@ -182,7 +182,7 @@ function Issues({ initialIssues, labels, owner, name }) {    // 在服务端渲�
       console.error("搜索框搜索内容 Error", err);
       setFetching(false);
     })
-  }, [owner, name, creator, state, label]);
+  }, [owner, name, creator, state, label]);  // TODO: 如果搜索框中条件改变，搜索按钮会根据新条件去查询
 
   // console.log("labels", labels)
 

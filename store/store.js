@@ -66,7 +66,7 @@ export default function initializeStore(state) {
   const store = createStore(
     allReducers,
     // redux和nextjs集成，with-redux函数中集成方式，合并对象
-    Object.assign({},{user: userInitialState},state),
+    Object.assign({}, {user: userInitialState}, state),
     composeWithDevTools(applyMiddleware(ReduxThunk)),
   )
   return store

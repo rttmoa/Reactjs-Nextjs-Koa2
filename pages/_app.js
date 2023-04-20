@@ -58,7 +58,8 @@ class MyApp extends App { // 覆盖_app.js文件
   render() {
     // reduxStore是with-redux中传递过来的
     const { Component, pageProps, reduxStore } = this.props;
-
+    // console.log("pageProps", pageProps)
+    
     return (
       <Container>
         <Provider store={reduxStore}>

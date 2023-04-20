@@ -162,4 +162,4 @@ function mapReducer(dispatch) {
     logout: () => dispatch(logout())
   }
 }
-export default connect(state => {return {user: state.user}}, mapReducer )(withRouter(MyLayout))  
+export default connect(state => {return {user: state.user}}, mapReducer)(withRouter(MyLayout))  

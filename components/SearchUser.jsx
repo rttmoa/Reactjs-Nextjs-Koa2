@@ -6,7 +6,10 @@ const Option = Select.Option;
 
 
 
-/***--- deboune ---**/
+
+
+
+/***--- deboune  页面在详情页面中 - Issue - 创建者中进行搜索  ---**/
 function SearchUser({ onChange, value }) {
   // console.log("SearchUser")
   // { current: 0 }
@@ -19,32 +22,34 @@ function SearchUser({ onChange, value }) {
   const fetchUser = useCallback(
     // debounce： 如果用户输入的时间超过了500毫秒才会再发请求 && 节流
     debounce(value => {
-      console.log('fetching user', value)
+      // console.log('fetching user', value)
 
-      lastFetchIdRef.current += 1
-      const fetchId = lastFetchIdRef.current
+      lastFetchIdRef.current += 1;
+      const fetchId = lastFetchIdRef.current;
       setFetching(true)
       setOptions([])
 
       // 在浏览器环境中，不会用到req，res
       api.request({url: `/search/users?q=${value}`}).then(resp => {
-          console.log('创建者数据:', resp)
-          if (fetchId !== lastFetchIdRef.current) {
-            return
-          }
-          const data = resp.data.items.map(user => ({
-            text: user.login,
-            value: user.login,
-          }));
-          setFetching(false)
-          setOptions(data)
+        // console.log('SearchUser 创建者数据:', resp)
+        if (fetchId !== lastFetchIdRef.current) {
+          return
+        }
+        const data = resp.data.items.map(user => ({
+          text: user.login,
+          value: user.login,
+        }));
+        setFetching(false)
+        setOptions(data)
         })
     }, 500), [])
 
+    
   const handleChange = value => {
+    // console.log("value", value) // 在搜索框输入的内容
     setOptions([])
     setFetching(false)
-    onChange(value)
+    onChange(value) // 回调到issuejs中
   }
 
 
@@ -57,7 +62,7 @@ function SearchUser({ onChange, value }) {
       filterOption={false}
       placeholder="创建者"
       value={value}
-      onChange={handleChange}
+      onChange={handleChange}   // 输入框事件改变时
       onSearch={fetchUser}
       allowClear={true}
     >
