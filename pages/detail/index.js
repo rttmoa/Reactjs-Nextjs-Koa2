@@ -9,7 +9,7 @@ import withRepoBasic from '../../components/with-repo-basic';
 
 
 
-// 异步组件加载：MDRenderer这个组件只有等到 Detail 执行渲染的时候， 它才会被真正的加载
+// 异步组件加载： MDRenderer这个组件只有等到 Detail 执行渲染的时候， 它才会被真正的加载
 const MDRenderer = dynamic(() => import('../../components/MarkdownRenderer'), {
   // 第二个参数 在异步加载的时候，可以反馈给用户加载的状态，而不是空白的内容
   loading: () => <p>Loading</p>

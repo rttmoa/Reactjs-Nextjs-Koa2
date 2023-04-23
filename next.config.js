@@ -56,7 +56,7 @@ const configs = {
 if (typeof require !== 'undefined') { require.extensions['.css'] = file => {} }
 
 
-// 打包分析
+// TODO: 打包分析
 module.exports = withBundleAnalyzer(
   // 让nextjs使用css： nextjs默认不支持css文件
   withCss({ 
